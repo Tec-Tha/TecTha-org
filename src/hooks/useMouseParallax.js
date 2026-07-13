@@ -1,28 +1,56 @@
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { mapRange, prefersReducedMotion } from '../utils/helpers'
+import { useEffect } from "react";
+import { useMotionValue } from "framer-motion";
 
 /**
- * Subtle parallax offset based on pointer position within the viewport.
- * `depth` controls travel distance in px.
+ * useMouseParallax — tracks cursor position relative to the center of a
+ * given container and returns raw motion values scaled by `strength`
+ * (in pixels of maximum travel). Used by Hero.jsx to drift its
+ * background orbs and mesh visual toward the cursor at low amplitude.
+ *
+ * Distinct from useMagneticEffect: that one only reacts while hovering
+ * the target itself and is meant for buttons; this one listens on the
+ * whole container (or window, if no container ref settles) and is meant
+ * for large ambient background elements that should react even when the
+ * cursor isn't directly over them.
+ *
+ * const containerRef = useRef(null);
+ * const { x, y } = useMouseParallax(containerRef, { strength: 18 });
+ * // typically piped through useSpring by the caller for smoothing
  */
-export function useMouseParallax(depth = 20) {
-  const ref = useRef(null)
+
+export const useMouseParallax = (containerRef, { strength = 20 } = {}) => {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
   useEffect(() => {
-    if (prefersReducedMotion()) return
-    const el = ref.current
-    if (!el) return
+    const handleMouseMove = (e) => {
+      const el = containerRef?.current;
+      if (!el) return;
 
-    const handleMove = (e) => {
-      const x = mapRange(e.clientX, 0, window.innerWidth, -depth, depth)
-      const y = mapRange(e.clientY, 0, window.innerHeight, -depth, depth)
-      gsap.to(el, { x, y, duration: 1.2, ease: 'power3.out' })
-    }
+      const rect = el.getBoundingClientRect();
+      const relativeX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+      const relativeY = (e.clientY - rect.top) / rect.height - 0.5;
 
-    window.addEventListener('mousemove', handleMove)
-    return () => window.removeEventListener('mousemove', handleMove)
-  }, [depth])
+      x.set(relativeX * strength * 2);
+      y.set(relativeY * strength * 2);
+    };
 
-  return ref
-}
+    const handleMouseLeave = () => {
+      x.set(0);
+      y.set(0);
+    };
+
+    const el = containerRef?.current;
+    if (!el) return;
+
+    el.addEventListener("mousemove", handleMouseMove);
+    el.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      el.removeEventListener("mousemove", handleMouseMove);
+      el.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [containerRef, strength]);
+
+  return { x, y };
+};

@@ -108,11 +108,11 @@ const IndustriesScroll = () => {
             overline="Industries"
             title={
               <>
-                Depth in six verticals,
-                <br className="hidden sm:block" /> not a footprint in sixty.
+                Sectors We Transform
+                <br className="hidden sm:block" /> 
               </>
             }
-            subtitle="We go where the regulatory and operational stakes are highest."
+            subtitle="We deploy custom technological solutions tailored to solve specific regulatory and logistical challenges."
             align="left"
           />
         </div>

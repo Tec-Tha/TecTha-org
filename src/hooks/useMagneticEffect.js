@@ -1,41 +1,41 @@
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { prefersReducedMotion } from '../utils/helpers'
+import { useRef } from "react";
+import { useMotionValue, useSpring } from "framer-motion";
 
 /**
- * Magnetic hover effect: element eases toward the cursor within its bounds,
- * then snaps back on mouse leave. Used by MagneticButton.
+ * useMagneticEffect — the cursor-attraction logic behind the
+ * MagneticButton component, extracted into a standalone hook per the
+ * original folder structure (hooks/useMagneticEffect.js). Returns a ref
+ * to attach to the target element, spring-smoothed x/y motion values to
+ * bind to `style`, and the mouse handlers to wire up.
+ *
+ * const { ref, x, y, handleMouseMove, handleMouseLeave } = useMagneticEffect({ strength: 0.3 });
+ * <motion.div ref={ref} style={{ x, y }} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+ *   ...
+ * </motion.div>
  */
-export function useMagneticEffect(strength = 0.35) {
-  const ref = useRef(null)
 
-  useEffect(() => {
-    const el = ref.current
-    if (!el || prefersReducedMotion()) return
+export const useMagneticEffect = ({ strength = 0.3 } = {}) => {
+  const ref = useRef(null);
 
-    const handleMove = (e) => {
-      const rect = el.getBoundingClientRect()
-      const relX = e.clientX - (rect.left + rect.width / 2)
-      const relY = e.clientY - (rect.top + rect.height / 2)
-      gsap.to(el, {
-        x: relX * strength,
-        y: relY * strength,
-        duration: 0.5,
-        ease: 'power3.out',
-      })
-    }
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const x = useSpring(rawX, { stiffness: 220, damping: 18, mass: 0.4 });
+  const y = useSpring(rawY, { stiffness: 220, damping: 18, mass: 0.4 });
 
-    const handleLeave = () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' })
-    }
+  const handleMouseMove = (e) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const offsetX = e.clientX - (rect.left + rect.width / 2);
+    const offsetY = e.clientY - (rect.top + rect.height / 2);
+    rawX.set(offsetX * strength);
+    rawY.set(offsetY * strength);
+  };
 
-    el.addEventListener('mousemove', handleMove)
-    el.addEventListener('mouseleave', handleLeave)
-    return () => {
-      el.removeEventListener('mousemove', handleMove)
-      el.removeEventListener('mouseleave', handleLeave)
-    }
-  }, [strength])
+  const handleMouseLeave = () => {
+    rawX.set(0);
+    rawY.set(0);
+  };
 
-  return ref
-}
+  return { ref, x, y, handleMouseMove, handleMouseLeave };
+};

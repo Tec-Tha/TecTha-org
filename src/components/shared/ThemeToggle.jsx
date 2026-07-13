@@ -1,24 +1,68 @@
-import { useTheme } from '../../hooks/useTheme'
+import { AnimatePresence, motion } from "framer-motion";
+import { Sun, Moon } from "lucide-react";
+import { useTheme } from "../../hooks/useTheme";
 
-export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()
+/**
+ * ThemeToggle — sun/moon icon swap with a spring-driven rotate + scale
+ * cross-fade, rather than a plain instant icon swap. Sits in the Navbar
+ * on both desktop and mobile. Reads/writes theme via the useTheme hook,
+ * which is expected to persist the choice and toggle the `.dark` class
+ * on <html> (see index.css for the tokens that key off it).
+ */
+
+const iconVariants = {
+  initial: { opacity: 0, rotate: -90, scale: 0.4 },
+  animate: {
+    opacity: 1,
+    rotate: 0,
+    scale: 1,
+    transition: { type: "spring", stiffness: 300, damping: 20 },
+  },
+  exit: {
+    opacity: 0,
+    rotate: 90,
+    scale: 0.4,
+    transition: { duration: 0.15 },
+  },
+};
+
+const ThemeToggle = () => {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
     <button
       onClick={toggleTheme}
-      aria-label="Toggle color theme"
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-ivory/15 text-ivory/70 transition-colors duration-300 hover:border-signal hover:text-signal"
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[color:var(--color-border)] text-[color:var(--color-text-secondary)] transition-colors duration-300 hover:border-[color:var(--color-brand-500)] hover:text-[color:var(--color-brand-600)] dark:hover:text-[color:var(--color-brand-400)]"
     >
-      {theme === 'dark' ? (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <circle cx="12" cy="12" r="5" />
-          <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-        </svg>
-      ) : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-        </svg>
-      )}
+      <AnimatePresence mode="wait" initial={false}>
+        {isDark ? (
+          <motion.span
+            key="moon"
+            variants={iconVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <Moon className="h-4.5 w-4.5" />
+          </motion.span>
+        ) : (
+          <motion.span
+            key="sun"
+            variants={iconVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <Sun className="h-4.5 w-4.5" />
+          </motion.span>
+        )}
+      </AnimatePresence>
     </button>
-  )
-}
+  );
+};
+
+export default ThemeToggle;

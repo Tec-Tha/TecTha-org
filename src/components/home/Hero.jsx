@@ -58,7 +58,7 @@ const Hero = () => {
             custom={0.1}
             className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-surface)] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--color-text-secondary)] backdrop-blur-sm"
           >
-            Enterprise Technology Consulting
+            Enterprise Technology Partner
           </motion.span>
  
           <h1 className="mt-8 text-[clamp(2.75rem,6vw,5.5rem)] font-extrabold leading-[1.02] tracking-tight text-[color:var(--color-text-primary)]">
@@ -66,7 +66,7 @@ const Hero = () => {
               type="words"
               stagger={0.05}
               delay={0.28}
-              text="Engineering the systems ambitious enterprises run on."
+              text="Engineering Enterprise Growth Through Technology."
             />
           </h1>
  
@@ -77,9 +77,7 @@ const Hero = () => {
             custom={0.75}
             className="mt-8 max-w-xl text-lg leading-relaxed text-[color:var(--color-text-secondary)]"
           >
-            We embed with leadership teams to modernize the platforms,
-            data, and decisions that sit underneath real revenue —
-            not around it.
+            We build highly scalable business architectures, intelligent custom AI networks, and premium digital products to accelerate operations and drive measurable ROI for industry leaders.
           </motion.p>
  
           <motion.div
@@ -94,7 +92,7 @@ const Hero = () => {
                 href="/contact"
                 className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#2563EB] to-[#7C3AED] px-7 py-4 text-[15px] font-semibold text-white shadow-[0_0_36px_-10px_rgba(99,102,241,0.6)] transition-shadow duration-300 hover:shadow-[0_0_48px_-8px_rgba(99,102,241,0.75)]"
               >
-                Start a conversation
+                Book Strategy Consultation
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </MagneticButton>
@@ -105,7 +103,7 @@ const Hero = () => {
                 className="group inline-flex items-center gap-2.5 rounded-full border border-[color:var(--color-border)] px-7 py-4 text-[15px] font-semibold text-[color:var(--color-text-primary)] transition-colors duration-300 hover:border-[color:var(--color-brand-500)]"
               >
                 <PlayCircle className="h-4.5 w-4.5 text-[color:var(--color-brand-600)]" />
-                See our work
+                Explore Our Solutions
               </a>
             </MagneticButton>
           </motion.div>

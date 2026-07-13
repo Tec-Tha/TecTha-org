@@ -155,6 +155,30 @@ body {
   animation: gradient-shift 8s ease infinite;
 }
 
+/* Infinite marquee — canonical home for the keyframe LogoSlider.jsx
+   currently injects via its own inline <style> tag. Once this exists
+   here, that inline tag can be deleted from LogoSlider.jsx in favor of
+   this shared utility. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+/* Syne accent font — used sparingly per the type system (hero overlines,
+   pull quotes). Replaces the inline `style={{ fontFamily: "Syne, sans-serif" }}`
+   currently set directly in Innovation.jsx's pull-quote cell. */
+.font-accent {
+  font-family: "Syne", sans-serif;
+}
+
 /* ==========================================================================
    Accessibility — respect reduced motion at the source
    ========================================================================== */

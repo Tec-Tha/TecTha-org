@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
-
+import { motion, useScroll, useSpring } from "framer-motion";
+ 
 /**
- * Thin progress bar fixed to the top of the viewport, tracking scroll depth.
+ * ScrollProgress — thin gradient bar fixed to the very top edge of the
+ * viewport, above the Navbar in stacking order. Tracks whole-page scroll
+ * progress, smoothed with a spring so it doesn't feel like it's stepping
+ * frame-by-frame with Lenis's eased scroll.
  */
-export default function ScrollProgress() {
-  const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 25, restDelta: 0.001 })
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const unsub = scrollYProgress.on('change', (v) => setVisible(v > 0.01))
-    return unsub
-  }, [scrollYProgress])
-
+ 
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 280,
+    damping: 40,
+    mass: 0.3,
+  });
+ 
   return (
     <motion.div
       style={{ scaleX }}
-      className="fixed left-0 top-0 z-[90] h-[2px] w-full origin-left bg-signal"
-      animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
+      className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-[#2563EB] via-[#4F46E5] to-[#7C3AED]"
+      aria-hidden="true"
     />
-  )
-}
+  );
+};
+ 
+export default ScrollProgress;

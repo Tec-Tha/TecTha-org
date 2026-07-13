@@ -1,15 +1,46 @@
-import { cx } from '../../utils/helpers'
+/**
+ * Card — the base container most rounded panels across the site should
+ * render through. ServicesGrid, Overview's stat panel, WhyUs, Industries,
+ * Careers' benefit tiles, and others all hand-rolled this same
+ * border/background/radius pattern inline; this is the shared version.
+ *
+ * <Card>Plain content</Card>
+ * <Card variant="glass" hover="lift">Frosted panel</Card>
+ * <Card variant="gradient" hover="glow" as="a" href="/services">Clickable</Card>
+ */
 
-export default function Card({ children, className, hoverable = true }) {
+const VARIANT_CLASSES = {
+  default: "border border-[color:var(--color-border)] bg-[color:var(--color-bg-card)]",
+  glass:
+    "border border-[color:var(--color-border)] bg-[color:var(--color-surface)] backdrop-blur-xl",
+  gradient:
+    "border border-transparent bg-gradient-to-br from-[#0F172A] to-[#1E1B4B] text-white",
+  bordered: "border-2 border-[color:var(--color-border)] bg-transparent",
+};
+
+const HOVER_CLASSES = {
+  none: "",
+  lift: "transition-transform duration-300 hover:-translate-y-1.5",
+  glow: "transition-shadow duration-300 hover:shadow-[0_24px_48px_-24px_rgba(37,99,235,0.3)]",
+};
+
+const Card = ({
+  children,
+  variant = "default",
+  hover = "none",
+  padding = "p-8",
+  as: Component = "div",
+  className = "",
+  ...rest
+}) => {
   return (
-    <div
-      className={cx(
-        'rounded-2xl border border-ivory/10 bg-ink-700/60 p-6 sm:p-8',
-        hoverable && 'transition-all duration-500 ease-signal hover:border-signal/30 hover:bg-ink-700',
-        className
-      )}
+    <Component
+      className={`rounded-3xl ${VARIANT_CLASSES[variant]} ${HOVER_CLASSES[hover]} ${padding} ${className}`}
+      {...rest}
     >
       {children}
-    </div>
-  )
-}
+    </Component>
+  );
+};
+
+export default Card;

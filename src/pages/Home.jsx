@@ -1,23 +1,32 @@
-import Hero from '../components/home/Hero.jsx'
-import Overview from '../components/home/Overview.jsx'
-import LogoSlider from '../components/shared/LogoSlider.jsx'
-import ServicesGrid from '../components/home/ServicesGrid.jsx'
-import IndustriesScroll from '../components/home/IndustriesScroll.jsx'
-import WhyUs from '../components/home/WhyUs.jsx'
-import Statistics from '../components/home/Statistics.jsx'
-import FeaturedWork from '../components/home/FeaturedWork.jsx'
-import Innovation from '../components/home/Innovation.jsx'
-import Testimonials from '../components/home/Testimonials.jsx'
-import Insights from '../components/home/Insights.jsx'
-import ContactCTA from '../components/home/ContactCTA.jsx'
+import Hero from "../components/home/Hero";
+import LogoSlider from "../components/shared/LogoSlider";
+import Overview from "../components/home/Overview";
+import ServicesGrid from "../components/home/ServicesGrid";
+import IndustriesScroll from "../components/home/IndustriesScroll";
+import WhyUs from "../components/home/WhyUs";
+import Statistics from "../components/home/Statistics";
+import FeaturedWork from "../components/home/FeaturedWork";
+import Innovation from "../components/home/Innovation";
+import Testimonials from "../components/home/Testimonials";
+import Insights from "../components/home/Insights";
+import ContactCTA from "../components/home/ContactCTA";
+import PageWrapper from "../components/layout/PageWrapper";
 
-export default function Home() {
+/**
+ * Home — composes the full section sequence from the architecture
+ * blueprint. Uses fullBleed on PageWrapper since Hero runs edge-to-edge
+ * under the transparent navbar rather than clearing it with top padding.
+ */
+
+const Home = () => {
   return (
-    <>
+    <PageWrapper
+      title="Home"
+      description="Tec Tha — enterprise technology consulting for organizations that need systems to survive contact with reality."
+      fullBleed
+    >
       <Hero />
-      <div className="container-content py-10">
-        <LogoSlider />
-      </div>
+      <LogoSlider />
       <Overview />
       <ServicesGrid />
       <IndustriesScroll />
@@ -28,6 +37,8 @@ export default function Home() {
       <Testimonials />
       <Insights />
       <ContactCTA />
-    </>
-  )
-}
+    </PageWrapper>
+  );
+};
+
+export default Home;

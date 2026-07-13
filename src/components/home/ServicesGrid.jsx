@@ -20,39 +20,39 @@ import SectionHeader from "../shared/SectionHeader";
 const SERVICES = [
   {
     icon: Cloud,
-    title: "Cloud & Infrastructure",
+    title: "Enterprise Software",
     description:
-      "Migration, modernization, and cost-optimized architecture across multi-cloud and hybrid environments.",
+      "Custom CRM, ERP, database architectures, and SaaS engines built with enterprise-grade durability.",
   },
   {
     icon: Database,
-    title: "Data & Analytics",
+    title: "AI Integration & Agentics",
     description:
-      "Unified data platforms, pipelines, and governance that turn fragmented sources into a single source of truth.",
+      "Deploying custom agent pipelines, secure data parsing, and predictive automation models.",
   },
   {
     icon: Workflow,
-    title: "AI Transformation",
+    title: "Cloud & Infrastructure",
     description:
-      "Applied AI systems scoped to measurable outcomes — from pilot to production, with guardrails built in.",
+      "Scalable multi-cloud engineering, continuous deployment paths, and state-of-the-art security compliance.",
   },
   {
     icon: ShieldCheck,
-    title: "Security & Compliance",
+    title: "UI/UX & Product Design",
     description:
-      "Risk assessments and compliance-grade controls embedded into delivery, not bolted on before audit.",
+      "Designing intuitive client dashboards, modern SaaS UI systems, and highly engaging user journeys.",
   },
   {
     icon: Boxes,
-    title: "Platform Engineering",
+    title: "Brand & Demand Strategy",
     description:
-      "Internal developer platforms and DevOps practices that shrink the distance between commit and production.",
+      "Data-backed B2B positioning, lead capture funnels, and corporate identity expansion.",
   },
   {
     icon: LineChart,
-    title: "Digital Strategy",
+    title: "Digital Advisory",
     description:
-      "Technology roadmaps tied to business outcomes, built alongside the teams who'll execute them.",
+      "IT audits, system feasibility studies, tech stack optimization, and cloud spend advisory.",
   },
 ];
 
